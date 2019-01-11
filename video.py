@@ -3,7 +3,7 @@ import numpy as np
 
 
 def make_coordinates(image, line_parameters):
-    print(line_parameters)
+    #print(line_parameters)
     slope, intercept = line_parameters
     #print(image.shape)
     y1 = image.shape[0]
@@ -26,11 +26,13 @@ def average_slope_intercept(image, lines):
         else:
             right_fit.append((slope, intercept))
 
-    print(left_fit)
+    #print(left_fit)
     #print(right_fit)
     left_fit_average = np.average(left_fit, axis=0)
     right_fit_average = np.average(right_fit, axis=0)
-    #print(left_fit_average, 'left')
+    #average = np.array([left_fit_average, right_fit_average])
+    #print(average)
+    #print(left_fit_average), 'left')
     #print(right_fit_average, 'right')
     left_line = make_coordinates(image, left_fit_average)
     right_line = make_coordinates(image, right_fit_average)
