@@ -15,16 +15,18 @@ def make_coordinates(image, line_parameters):
 def average_slope_intercept(image, lines):
     left_fit = []
     right_fit = []
+    if lines is None:
+        return None
     for line in lines:
-        x1, y1, x2, y2 = line.reshape(4)
-        parameters = np.polyfit((x1, x2), (y1, y2), 1)
-        #print(parameters)
-        slope = parameters[0]
-        intercept = parameters[1]
-        if slope < 0:
-            left_fit.append((slope, intercept))
-        else:
-            right_fit.append((slope, intercept))
+        for x1, y1, x2, y2 in line:
+            parameters = np.polyfit((x1, x2), (y1, y2), 1)
+            #print(parameters)
+            slope = parameters[0]
+            intercept = parameters[1]
+            if slope < 0:
+                left_fit.append((slope, intercept))
+            else:
+                right_fit.append((slope, intercept))
 
     #print(left_fit)
     #print(right_fit)
