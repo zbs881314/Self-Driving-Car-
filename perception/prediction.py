@@ -25,11 +25,11 @@ model.compile(adam, loss='binary_crossentropy', metrics = ['accuracy'])
 h = model.fit(x=X, y=y, verbose=1, batch_size=50, epochs=500, shuffle='true')
 
 
-# plt.plot(h.history['acc'])
-# plt.title('accuracy')
-# plt.xlabel('epoch')
-# plt.legend(['accuracy'])
-# plt.show()
+plt.plot(h.history['acc'])
+plt.title('accuracy')
+plt.xlabel('epoch')
+plt.legend(['accuracy'])
+plt.show()
 
 
 # plt.plot(h.history['loss'])
