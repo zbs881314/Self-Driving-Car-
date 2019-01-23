@@ -95,5 +95,32 @@ print('Test score:', score[0])
 print('Test accuracy:', score[1])
 
 
+import requests
+from PIL import Image
+
+url = 'https://www.researchgate.net/profile/Jose_Sempere/publication/221258631/figure/fig1/AS:305526891139075@1449854695342/Handwritten-digit-2.png'
+
+response = requests.get(url, stream=True)
+print(response)
+img = Image.open(response.raw)
+plt.imshow(img)
+
+import cv2
+
+img = np.asarray(img)
+print(img.shape)
+img = cv2.resize(img, (28, 28))
+print(img.shape)
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+print(img.shape)
+img = cv2.bitwise_not(img)
+plt.imshow(img, cmap=plt.get_cmap('gray'))
+
+
+img = img/255
+img = img.reshape(1, 784)
+
+prediction = model.predict_classes(img)
+print('prediction digit:', str(prediction))
 
 
