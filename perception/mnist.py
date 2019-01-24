@@ -40,6 +40,7 @@ for i in range(cols):
         if i == 2:
             axs[j][i].set_title(str(j))
             num_of_samples.append(len(x_selected))
+plt.show()
 
 print(num_of_samples)
 plt.figure(figsize=(12, 4))
@@ -47,6 +48,7 @@ plt.bar(range(0, num_classes), num_of_samples)
 plt.title('Distribution of the training dataset')
 plt.xlabel('Class number')
 plt.ylabel('Number of images')
+plt.show()
 
 
 y_train = to_categorical(y_train, 10)
