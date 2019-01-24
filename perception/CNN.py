@@ -147,6 +147,7 @@ for i in range(30):
     plt.subplot(6, 5, i+1)
     plt.imshow(visual_layer1[0, :, :, i], cmap=plt.get_cmap('jet'))
     plt.axis('off')
+plt.show()
 
 
 # layer2
@@ -155,3 +156,5 @@ for i in range(15):
     plt.subplot(3, 5, i+1)
     plt.imshow(visual_layer2[0,:, :, i], cmap=plt.get_cmap('jet'))
     plt.axis('off')
+
+plt.show()
