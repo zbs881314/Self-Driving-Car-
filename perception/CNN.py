@@ -80,3 +80,78 @@ model = leNet_model()
 print(model.summary())
 
 
+history = model.fit(x_train, y_train, epochs=10, validation_split=0.1, batch_size=400, verbose=1, shuffle=1)
+
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.legend(['loss', 'val_loss'])
+plt.title('Loss')
+plt.xlabel('epoch')
+
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.legend(['acc', 'val_acc'])
+plt.title('Accuracy')
+plt.xlabel('epoch')
+
+
+score = model.evaluate(x_test, y_test, verbose=0)
+print(type(score))
+print('Test score:', score[0])
+print('Test accuracy:', score[1])
+
+
+import requests
+from PIL import Image
+
+url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST8KzXHtkSHcxzdpnllMhAj0upLEwnNFdtY6j4YUPcmaf4Ty3u'
+response = requests.get(url, stream=True)
+print(response)
+img = Image.open(response.raw)
+plt.imshow(img, cmap=plt.get_cmap('gray'))
+
+import cv2
+
+img = np.asarray(img)
+print(img.shape)
+img = cv2.resize(img, (28, 28))
+print(img.shape)
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+print(img.shape)
+img = cv2.bitwise_not(img)
+plt.imshow(img, cmap=plt.get_cmap('gray'))
+
+
+img = img/255
+img = img.reshape(1, 28, 28, 1)
+print(img.shape)
+
+prediction = model.predict_classes(img)
+print('prediction digit:', str(prediction))
+
+
+layer1 = Model(inputs=model.layers[0].input, outputs=model.layers[0].output)
+layer2 = Model(inputs=model.layers[0].input, outputs=model.layers[2].output)
+
+
+visual_layer1, visual_layer2 = layer1.predict(img), layer2.predict(img)
+
+print(visual_layer1.shape)
+print(visual_layer2.shape)
+
+
+# layer1
+plt.figure(figsize=(10, 6))
+for i in range(30):
+    plt.subplot(6, 5, i+1)
+    plt.imshow(visual_layer1[0, :, :, i], cmap=plt.get_cmap('jet'))
+    plt.axis('off')
+
+
+# layer2
+plt.figure(figsize=(10, 6))
+for i in range(15):
+    plt.subplot(3, 5, i+1)
+    plt.imshow(visual_layer2[0,:, :, i], cmap=plt.get_cmap('jet'))
+    plt.axis('off')
