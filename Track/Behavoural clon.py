@@ -67,14 +67,10 @@ def load_img_steering(datadir, df):
     image_path = []
     steering = []
     for i in range(len(data)):
-        indexed_data = data.iloc[1]
+        indexed_data = data.iloc[i]
         center, left, right = indexed_data[0], indexed_data[1], indexed_data[2]
         image_path.append(os.path.join(datadir, center.strip()))
         steering.append(float(indexed_data[3]))
-        image_path.append(os.path.join(datadir, left.strip()))
-        steering.append(float(indexed_data[3]) + 0.15)
-        image_path.append(os.path.join(datadir, right.strip()))
-        steering.append(float(indexed_data[3]) - 0.15)
     image_paths = np.asarray(image_path)
     steerings = np.asarray(steering)
     return image_paths, steerings
@@ -90,7 +86,7 @@ axes[0].hist(y_train, bins=num_bins, width=0.05, color='blue')
 axes[0].set_title('Training set')
 axes[1].hist(y_valid, bins=num_bins, width=0.05, color='red')
 axes[1].set_title('Validation set')
-#plt.show()
+plt.show()
 
 def img_preprocess(img):
     img = mpimg.imread(img)
@@ -119,6 +115,34 @@ X_valid = np.array(list(map(img_preprocess, X_valid)))
 plt.imshow(X_train[random.randint(0, len(X_train)-1)])
 plt.axis('off')
 print(X_train.shape)
+
+
+def nvidia_model():
+    model = Sequential()
+    model.add(Convolution2D(24, 5, 5, subsample=(2, 2), input_shape=(66, 200, 3), activation='relu'))
+    model.add(Convolution2D(36, 5, 5, subsample=(2, 2), activation='relu'))
+    model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu'))
+    model.add(Convolution2D(64, 3, 3, activation='relu'))
+    model.add(Convolution2D(64, 3, 3, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Flatten())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(50, activation='relu'))
+    model.add(Dense(10, activation='relu'))
+    model.add(Dense(1))
+
+    optimizer = Adam(lr=1e-3)
+    model.compile(loss='mse', optimizer=optimizer)
+    return model
+
+model = nvidia_model()
+print(model.summary())
+
+
+
 
 
 
