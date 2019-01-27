@@ -260,12 +260,18 @@ def batch_generator(image_paths, steering_ang, batch_size, istraining):
 
 
 
-X_train = np.array(list(map(img_preprocess, X_train)))
-X_valid = np.array(list(map(img_preprocess, X_valid)))
+X_train_gen, y_train_gen = next(batch_generator(X_train, y_train, 1, 1))
+X_valid_gen, y_valid_gen = next(batch_generator(X_valid, y_valid, 1, 0))
 
-plt.imshow(X_train[random.randint(0, len(X_train)-1)])
-plt.axis('off')
-print(X_train.shape)
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+fig.tight_layout()
+
+axs[0].imshow(X_train_gen[0])
+axs[0].set_title('Training Image')
+
+axs[1].imshow(X_valid_gen[0])
+axs[1].set_title('Validation Image')
+plt.show()
 
 
 def nvidia_model():
