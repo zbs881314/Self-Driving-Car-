@@ -215,7 +215,6 @@ plt.show()
 
 
 def img_preprocess(img):
-    img = mpimg.imread(img)
     img = img[60:135, :, :]                     #tailor the image
     img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)   # convert the image from RGB to YUV
     img = cv2.GaussianBlur(img, (3, 3), 0)       # smoothing and reduce noise
@@ -227,7 +226,7 @@ image = image_paths[100]
 print(image.shape)
 original_image = mpimg.imread(image)
 print(original_image.shape)
-preprocessed_image = img_preprocess(image)
+preprocessed_image = img_preprocess(original_image)
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 10))
 fig.tight_layout()                             # ensure the image properly format and the axes not overlap
@@ -236,6 +235,29 @@ axs[0].set_title('Original Image')
 axs[1].imshow(preprocessed_image)
 axs[1].set_title('Preprocessed Image')
 plt.show()
+
+def batch_generator(image_paths, steering_ang, batch_size, istraining):
+
+    while True:
+        batch_img = []
+        batch_steering = []
+
+        for i in range(batch_size):
+            random_index = random.randint(0, len(image_paths)-1)
+
+            if istraining:
+                im, steering = random_augment(image_paths[random_index], steering_ang[random_index])
+
+            else:
+                im = mpimg.imread(image_paths[random_index])
+                steering = steering_ang[random_index]
+
+            im = img_preprocess(im)
+            batch_img.append(im)
+            batch_steering.append(steering)
+
+        yield (np.asarray(batch_img), np.asarray(batch_steering))
+
 
 
 X_train = np.array(list(map(img_preprocess, X_train)))
