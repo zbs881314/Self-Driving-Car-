@@ -301,7 +301,13 @@ def nvidia_model():
 model = nvidia_model()
 print(model.summary())
 
-history = model.fit(X_train, y_train, epochs=30, validation_data=(X_valid, y_valid), batch_size=100, verbose=1, shuffle=1)
+history = model.fit_generator(batch_generator(X_train, y_train, 100, 1),
+                    steps_per_epoch=300,
+                    epochs=10,
+                    validation_data=batch_generator(X_valid, y_valid, 100, 0),
+                    validation_steps=200,
+                    verbose=1,
+                    shuffle=1)
 
 
 plt.plot(history.history['loss'])
