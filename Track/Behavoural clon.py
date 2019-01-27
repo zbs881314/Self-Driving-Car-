@@ -92,23 +92,33 @@ axes[1].hist(y_valid, bins=num_bins, width=0.05, color='red')
 axes[1].set_title('Validation set')
 #plt.show()
 
-def zoom(image):
-    zoom = iaa.Affine(scale=(1, 1.3))
-    image = zoom.augment_image(image)
-    return image
+def img_preprocess(img):
+    img = mpimg.imread(img)
+    img = img[60:135, :, :]                     #tailor the image
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)   # convert the image from RGB to YUV
+    img = cv2.GaussianBlur(img, (3, 3), 0)       # smoothing and reduce noise
+    img = cv2.resize(img, (200, 66))            # resize the size of image
+    img = img/255                            # normalize the image
+    return img
 
-image = image_paths[random.randint(0, 1000)]
+image = image_paths[100]
 original_image = mpimg.imread(image)
-zoomed_image = zoom(original_image)
+preprocessed_image = img_preprocess(image)
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 10))
-fig.tight_layout()
-
+fig.tight_layout()                             # ensure the image properly format and the axes not overlap
 axs[0].imshow(original_image)
 axs[0].set_title('Original Image')
-axs[1].imshow(zoomed_image)
-axs[1].set_title('Zoomed Image')
-plt.show()
+axs[1].imshow(preprocessed_image)
+axs[1].set_title('Preprocessed Image')
+
+
+X_train = np.array(list(map(img_preprocess, X_train)))
+X_valid = np.array(list(map(img_preprocess, X_valid)))
+
+plt.imshow(X_train[random.randint(0, len(X_train)-1)])
+plt.axis('off')
+print(X_train.shape)
 
 
 
