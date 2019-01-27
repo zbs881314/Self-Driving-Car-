@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import keras
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.optimizers import Adam
 from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
 from sklearn.utils import shuffle
@@ -154,6 +154,10 @@ plt.title('Loss')
 plt.xlabel('Epoch')
 
 model.save('model.h5')
+
+model = load_model('model.h5')
+
+
 
 
 
