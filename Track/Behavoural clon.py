@@ -156,6 +156,8 @@ plt.xlabel('Epoch')
 model.save('model.h5')
 
 model = load_model('model.h5')
+# from google.colab import files
+# files.download('model.h5')
 
 
 
