@@ -77,8 +77,11 @@ def load_img_steering(datadir, df):
 
 image_paths, steerings = load_img_steering(datadir + '/IMG', data)
 
+print(image_paths.shape)
+
 X_train, X_valid, y_train, y_valid = train_test_split(image_paths, steerings, test_size = 0.2, random_state=6)
 
+print(X_train.shape)
 print('Training Samples: {}\nValid Samples: {}'.format(len(X_train), len(X_valid)))
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
@@ -116,7 +119,7 @@ def pan(image):
 
 image = image_paths[random.randint(0, 1000)]
 original_image = mpimg.imread(image)
-panned_image = zoom(original_image)
+panned_image = pan(original_image)
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 10))
 fig.tight_layout()
@@ -128,6 +131,48 @@ axs[1].imshow(panned_image)
 axs[1].set_title('Panned Image')
 plt.show()
 
+def img_random_brightness(image):
+    brightness = iaa.Multiply((0.2, 1.2))
+    image = brightness.augment_image(image)
+    return image
+
+image = image_paths[random.randint(0, 1000)]
+original_image = mpimg.imread(image)
+brightness_altered_image = img_random_brightness(original_image)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+fig.tight_layout()
+
+axs[0].imshow(original_image)
+axs[0].set_title('Original Image')
+
+axs[1].imshow(brightness_altered_image)
+axs[1].set_title('Brightness altered Image')
+plt.show()
+
+
+def img_random_flip(image, steering_angle):
+    image = cv2.flip(image, 1)
+    steering_angle = -steering_angle
+    return image, steering_angle
+
+
+random_index = random.randint(0, 1000)
+image = image_paths[random_index]
+steering_angle = steerings[random_index]
+
+original_image = mpimg.imread(image)
+flipped_image, flipped_steering_angle = img_random_flip(original_image, steering_angle)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+fig.tight_layout()
+
+axs[0].imshow(original_image)
+axs[0].set_title('Original Image -' + 'Steering Angle:' + str(steering_angle))
+
+axs[1].imshow(flipped_image)
+axs[1].set_title('Flipped Image -' + 'Steering Angle:' + str(flipped_steering_angle))
+plt.show()
 
 
 def img_preprocess(img):
@@ -140,7 +185,9 @@ def img_preprocess(img):
     return img
 
 image = image_paths[100]
+print(image.shape)
 original_image = mpimg.imread(image)
+print(original_image.shape)
 preprocessed_image = img_preprocess(image)
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 10))
@@ -149,6 +196,7 @@ axs[0].imshow(original_image)
 axs[0].set_title('Original Image')
 axs[1].imshow(preprocessed_image)
 axs[1].set_title('Preprocessed Image')
+plt.show()
 
 
 X_train = np.array(list(map(img_preprocess, X_train)))
