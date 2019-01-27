@@ -141,7 +141,14 @@ def nvidia_model():
 model = nvidia_model()
 print(model.summary())
 
+history = model.fit(X_train, y_train, epochs=30, validation_data=(X_valid, y_valid), batch_size=100, verbose=1, shuffle=1)
 
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.legend(['training', 'validation'])
+plt.title('Loss')
+plt.xlabel('Epoch')
 
 
 
