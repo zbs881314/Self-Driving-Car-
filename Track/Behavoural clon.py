@@ -153,6 +153,9 @@ plt.legend(['training', 'validation'])
 plt.title('Loss')
 plt.xlabel('Epoch')
 
+model.save('model.h5')
+
+
 
 
 
