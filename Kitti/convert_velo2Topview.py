@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from kitti_foundation import Kitti, Kitti_util
 
 
-velo_path = '/media/bob/周士博/SSD Lidar数据集/2011-005/2011_09_26 (2)/2011_09_26_drive_0005_sync/velodyne_points/data'
+velo_path = './velodyne_points/data'
 
 velo = Kitti_util(frame=89, velo_path=velo_path)
 frame = velo.velo_file
