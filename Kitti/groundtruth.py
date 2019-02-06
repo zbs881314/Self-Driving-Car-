@@ -7,11 +7,11 @@ from kitti_foundation import Kitti, Kitti_util
 image_type = 'color'  # 'gray' or 'color' image
 mode = '00' if image_type == 'gray' else '02'  # image_00 = 'graye image' , image_02 = 'color image'
 
-image_path = '/media/bob/周士博/SSD Lidar数据集/2011-005/2011_09_26 (2)/2011_09_26_drive_0005_sync/image_' + mode + '/data'
-velo_path = '/media/bob/周士博/SSD Lidar数据集/2011-005/2011_09_26 (2)/2011_09_26_drive_0005_sync/velodyne_points/data'
-xml_path = "/media/bob/周士博/SSD Lidar数据集/2011-005/2011_09_26 (3)/2011_09_26_drive_0005_sync/tracklet_labels.xml"
-v2c_filepath = '/media/bob/周士博/SSD Lidar数据集/2011-005/2011_09_26/calib_velo_to_cam.txt'
-c2c_filepath = '/media/bob/周士博/SSD Lidar数据集/2011-005/2011_09_26/calib_cam_to_cam.txt'
+image_path = './image_' + mode + '/data'
+velo_path = './velodyne_points/data'
+xml_path = "./tracklet_labels.xml"
+v2c_filepath = './calib_velo_to_cam.txt'
+c2c_filepath = './calib_cam_to_cam.txt'
 frame = 120
 
 check = Kitti_util(frame=frame, velo_path=velo_path, camera_path=image_path, \
