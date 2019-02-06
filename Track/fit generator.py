@@ -298,7 +298,7 @@ def nvidia_model():
 
     model.add(Dense(1))
 
-    optimizer = Adam(lr=1e-3)
+    optimizer = Adam(lr=1e-4)
     model.compile(loss='mse', optimizer=optimizer)
     return model
 
