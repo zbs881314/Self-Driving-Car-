@@ -53,7 +53,7 @@ class KalmanFilter:
         S = self.H * self.P * np.transpose(self.H) + self.R
         K = self.P * np.transpose(self.H) * np.linalg.inv(S)
         self.x = self.x + (K * y)
-        self.p = (self.I - (K * self.H)) * self.P
+        self.P = (self.I - (K * self.H)) * self.P
         return [self.x[0], self.x[1]]
         #return [50, 20]
 
