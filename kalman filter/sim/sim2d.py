@@ -227,6 +227,7 @@ def sim_run(options, KalmanFilter):
 
     print("Compute Time: ", round(time.clock() - start, 3), "seconds.")
     # Animation.
+
     car_ani = animation.FuncAnimation(fig, update_plot, frames=range(1,len(t)), interval=100, repeat=False, blit=False)
     #car_ani.save('lines.mp4')
 
