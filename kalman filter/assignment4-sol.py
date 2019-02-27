@@ -4,7 +4,7 @@ from sim.sim2d_prediction import sim_run
 # Simulator options.
 options = {}
 options['FIG_SIZE'] = [8,8]
-options['ALLOW_SPEEDING'] = False   # if set True, the function predict_red_light_speed will work
+options['ALLOW_SPEEDING'] = False
 
 class KalmanFilter:
     def __init__(self):
@@ -40,7 +40,7 @@ class KalmanFilter:
     def predict_red_light(self,light_location):
         light_duration = 3
         F_new = np.copy(self.F)
-        x_new = [80, 10]
+        x_new =
         if x_new[0] < light_location:
             return [False, x_new[0]]
         else:
@@ -49,7 +49,7 @@ class KalmanFilter:
     def predict_red_light_speed(self, light_location):
         light_duration = 3
         F_new = np.copy(self.F)
-        x_new = [80, 10]
+        x_new =
         if x_new[0] < light_location:
             return [False, x_new[0]]
         else:
@@ -57,4 +57,4 @@ class KalmanFilter:
 
 
 for i in range(0,5):
-    sim_run(options,KalmanFilter,i)
+sim_run(options,KalmanFilter,i)
